@@ -1,19 +1,31 @@
+import yt_dlp
 from moviepy.video.io.VideoFileClip import VideoFileClip
-
-
-video_path = '/content/downloaded_video.webm'
-
-with VideoFileClip(video_path) as video:
-    trimmed_video = video.subclip(108, 120)  
-
-    # Save the trimmed video
-    trimmed_video.write_videofile('trimmed_video.mp4')
-
 from IPython.display import HTML
 from base64 import b64encode
 
-# Replace this with the correct path to your video file
-video_path = '/content/trimmed_video.mp4'
+# Set your video URL
+video_url = 'https://www.youtube.com/watch?v=ysQoihAK-TE'
+
+# Set up yt-dlp options
+ydl_opts = {
+    'format': 'bestvideo+bestaudio/best',
+    'outtmpl': 'downloaded_video.%(ext)s',
+}
+
+# Download the video
+with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    ydl.download([video_url])
+# Define the video path
+video_path = 'downloaded_video.mp4'
+
+# Trim the video from seconds 108 to 120
+with VideoFileClip(video_path) as video:
+    trimmed_video = video.subclip(108, 120)
+
+    # Save the trimmed video
+    trimmed_video.write_videofile('trimmed_video.mp4')
+# Define the path to the trimmed video
+video_path = 'trimmed_video.mp4'
 
 # Create an HTML string to display the video
 video_html = HTML("""
