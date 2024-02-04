@@ -2,22 +2,17 @@ import yt_dlp
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from IPython.display import HTML
 from base64 import b64encode
+from moviepy.editor import VideoFileClip
 
-# Set your video URL
-video_url = 'https://www.youtube.com/watch?v=ysQoihAK-TE'
+# Replace the YouTube URL with your desired video URL
+video_url = "https://www.youtube.com/watch?v=NhmGNfILDyw"
 
-# Set up yt-dlp options
-ydl_opts = {
-    'format': 'bestvideo+bestaudio/best',
-    'outtmpl': 'downloaded_video.%(ext)s',
-}
+!yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' {video_url}
 
-# Download the video
-with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-    ydl.download([video_url])
-# Define the video path
 video_path = 'downloaded_video.mp4'
-!ffmpeg -i /content/downloaded_video_mp4.webm  /content/downloadMP4.mp4
+
+# In case if has downloaded it in Wbem
+# !ffmpeg -i /content/downloaded_video_mp4.webm  /content/downloadMP4.mp4
 
 # Trim the video from seconds 108 to 120
 with VideoFileClip(video_path) as video:
