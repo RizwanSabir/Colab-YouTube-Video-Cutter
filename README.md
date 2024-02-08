@@ -14,7 +14,8 @@ A Python script to download and trim a specific portion of a YouTube video in Go
 
 ### Installation
 ```bash
-!pip install yt-dlp moviepy
+#!pip install yt-dlp moviepy
+!pip install pytube
 
 
 
