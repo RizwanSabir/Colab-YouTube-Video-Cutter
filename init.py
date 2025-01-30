@@ -1,23 +1,21 @@
-from pytube import YouTube
+!pip install yt-dlp
 
-def download_youtube_video(url, output_path='/content/test.mp4'):
-    try:
-        # Create a YouTube object
-        yt = YouTube(url)
+from yt_dlp import YoutubeDL
+from google.colab import drive
+# drive.mount('/content/gdrive', force_remount=True)
+root_dir = '/content/'
 
-        # Get the highest resolution stream
-        video_stream = yt.streams.get_highest_resolution()
+link = 'https://www.youtube.com/watch?v=9JJKfFyM-CY'
 
-        # Download the video
-        print(f"Downloading: {yt.title}")
-        video_stream.download(output_path)
-        print("Download complete!")
+ydl_opts = {}
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
+with YoutubeDL(ydl_opts) as ydl:
+    info_dict = ydl.extract_info(link, download=False)
+    video_title = info_dict.get('title', None)
 
-# Example usage
-video_url = "https://www.youtube.com/watch?v=vkLQylA4388"
-output_path = "/content/test.mp4"
+path = f'{root_dir}/{video_title}.mp4'
 
-download_youtube_video(video_url, output_path)
+ydl_opts.update({'outtmpl':path})
+
+with YoutubeDL(ydl_opts) as ydl:
+    ydl.download([link])
